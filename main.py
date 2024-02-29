@@ -1,7 +1,6 @@
-from bs4 import BeautifulSoup
-import requests
 from discord import Intents, Client, Message
 from responses import get_responses
+from petrol_scrape import petrol_scrape
 from dotenv import load_dotenv
 # import discord
 import os
@@ -46,6 +45,9 @@ async def on_message(message) -> None:
     user_message = str(message.content)
     channel = str(message.channel)
 
+    if user_message == "petty":
+        print(petrol_scrape())
+
     print(f'[{channel}] - {username}: "{user_message}" ')
     await send_message(message, user_message)
 
@@ -58,52 +60,9 @@ if __name__ == '__main__':
     main()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# url = 'https://petrolspy.com.au/map/latlng/-37.792503416413055/144.82380823806795'
-# page = requests.get(url)
-# soup = BeautifulSoup(page.text, 'html.parser')
-# box = soup.find('table', id='main-station-list-table')
-# rows = box.find_all('td')
-# # print(rows[1])
-
-# for row in range(0, len(rows) - 1, 2):
-#     print(rows[row].text)
-#     print(f'{rows[row + 1].text}\n' )
-
 # class MyClient(Client):
 #     async def on_ready(self):
 #         print(f'Logged on as {self.user}!')
 
 #     async def on_message(self, message):
 #         print(f'Message from {message.author}: {message.content}')
-
-# intents = Intents.default()
-# intents.message_content = True
-
-# client = Client(intents=intents)
-# client.run(token)
-
-# # @client.event
-# # async def on_ready() -> None:
-# #     print(f'{client.user} is now running!')
-
-# # MyClient.on_ready(client)
-# def main() -> None:
-#     client.run(token)
-
-
-# if __name__ == '__main__':
-#     main()
