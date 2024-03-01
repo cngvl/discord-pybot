@@ -24,7 +24,10 @@ async def send_message(message: Message, user_message: str) -> None:
 
     try:
         response = get_responses(user_message)
-        await message.author.send(response) if is_private else message.channel.send(response)
+        if is_private:
+            await message.author.send(response)
+        # else:
+        #     await message.channel.send(response)
     except Exception as e:
         print(e)
 
@@ -47,7 +50,7 @@ async def on_message(message) -> None:
         await message.channel.send(petrol_scrape())
 
     print(f'[{channel}] - {username}: "{user_message}" ')
-    await send_message(message, user_message)
+    # await send_message(message, user_message)
 
 # Main entry point
 def main() -> None:
