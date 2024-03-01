@@ -3,28 +3,29 @@ from dotenv import load_dotenv
 import requests
 import os
 
-# I could use lat and long as parameter?¿
-    # Not very user friendly
-
 load_dotenv()
 WEATHER_TOKEN = os.getenv('OPENWEATHER_TOKEN')
 
-def get_lat_long(postCode: str) -> list:
-    # url = f'http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid={WEATHER_TOKEN}'
+def get_lat_long(user_message: str) -> list:
+    # Checking if user_message is in the correct format
+    postCode = int(user_message[-4:])
+
+    if not (postCode):
+        raise TypeError('Incorrect postcode format')
+
     url = f'https://api.openweathermap.org/geo/1.0/zip?zip={postCode},AU&appid={WEATHER_TOKEN}'
     page = requests.get(url).json()
-    # print(page.json()['lat'])
-    # print(page.json()['lon'])
-
     latlong = [page['lat'], page['lon']]
-    print(latlong)
+
+    # print(latlong)
 
     return latlong
 
-get_lat_long('3020')
+# coords = get_lat_long('$petty 3025')
 
-def petrol_scrape() -> str:
-    url = 'https://petrolspy.com.au/map/latlng/-37.792503416413055/144.82380823806795'
+def petrol_scrape(postCode: str) -> str:
+    coords = get_lat_long(postCode)
+    url = f'https://petrolspy.com.au/map/latlng/{coords[0]}/{coords[1]}'
     page = requests.get(url)
     soup = BeautifulSoup(page.text, 'html.parser')
     header = soup.find('h3' , id='main-station-list-header').text
@@ -40,4 +41,4 @@ def petrol_scrape() -> str:
 
     return returnText
 
-# petrol_scrape()
+# petrol_scrape('$petty 3025')
