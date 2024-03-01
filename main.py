@@ -42,15 +42,16 @@ async def on_message(message) -> None:
     if message.author == client.user:
         return
 
+    # print('on_message')
+
     username = str(message.author)
     user_message = str(message.content)
     channel = str(message.channel)
 
-    if user_message == "$petty":
-        await message.channel.send(petrol_scrape())
+    if user_message.startswith('$petty') and len(user_message) == 11:
+        await message.channel.send(petrol_scrape(user_message))
 
     print(f'[{channel}] - {username}: "{user_message}" ')
-    # await send_message(message, user_message)
 
 # Main entry point
 def main() -> None:
