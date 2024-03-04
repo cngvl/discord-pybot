@@ -21,7 +21,7 @@ def get_lat_long(user_message: str) -> list:
 
 # coords = get_lat_long('$petty 3025')
 
-def petrol_scrape(postCode: str) -> str:
+def petrol_scrape(postCode: str) -> list:
     coords = get_lat_long(postCode)
     url = f'https://petrolspy.com.au/map/latlng/{coords[0]}/{coords[1]}'
     page = requests.get(url)
@@ -30,11 +30,32 @@ def petrol_scrape(postCode: str) -> str:
     box = soup.find('table', id='main-station-list-table')
     rows = box.find_all('td')
 
-    returnText = f'{header}\n\n'
+    petrolLocations = []
+    petrolPrices = []
 
     for row in range(0, len(rows) - 1, 2):
-        returnText += f'- {rows[row].text}\n{rows[row + 1].text}\n\n'
+    #     returnText += f'- {rows[row].text}\n{rows[row + 1].text}\n\n'
+        if rows[row].text not in petrolLocations:
+            petrolLocations.append(rows[row].text)
 
+        if rows[row + 1].text not in petrolPrices:
+            petrolPrices.append(rows[row + 1].text)
+
+
+    return [header, petrolLocations, petrolPrices]
+
+def petrol_scrape_print(user_message) -> str:
+    scrapeInfo = petrol_scrape(user_message)
+
+    returnText = f'{scrapeInfo[0]}\n'
+
+    petrolLocations = scrapeInfo[1]
+
+    for val in range(len(petrolLocations)):
+        returnText += f'- {petrolLocations[val]}\n {scrapeInfo[2][val]}\n\n'
+
+    # print(returnText)
     return returnText
 
-# petrol_scrape('$petty 3025')
+# user_message = petrol_scrape('$petty 3020')
+# petrol_scrape_print('$petty 3020')
