@@ -1,6 +1,6 @@
 from discord import Intents, Client, Message
 from responses import get_responses
-from petrol_scrape import petrol_scrape
+from petrol_scrape import petrol_scrape_print
 from dotenv import load_dotenv
 import os
 
@@ -47,7 +47,8 @@ async def on_message(message) -> None:
     channel = str(message.channel)
 
     if user_message.startswith('$petty') and len(user_message) == 11:
-        await message.channel.send(petrol_scrape(user_message))
+        await message.channel.send(petrol_scrape_print(user_message))
+        print('Finished petrol_scrape_print')
 
     print(f'[{channel}] - {username}: "{user_message}" ')
 
