@@ -17,8 +17,6 @@ def get_lat_long(user_message: str) -> list:
     page = requests.get(url).json()
     latlong = [page['lat'], page['lon']]
 
-    # print(latlong)
-
     return latlong
 
 # coords = get_lat_long('$petty 3025')
@@ -36,8 +34,6 @@ def petrol_scrape(postCode: str) -> str:
 
     for row in range(0, len(rows) - 1, 2):
         returnText += f'- {rows[row].text}\n{rows[row + 1].text}\n\n'
-
-    # print(returnText)
 
     return returnText
 
