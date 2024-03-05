@@ -47,16 +47,14 @@ async def on_message(message) -> None:
     channel = str(message.channel)
 
     if user_message.startswith('$petty') and len(user_message) == 11:
-        await message.channel.send(petrol_scrape_print(user_message))
+        petrol_scrape_content = petrol_scrape_print(user_message)
+
+        embedVar = Embed(title=petrol_scrape_content[0], description=petrol_scrape_print(user_message)[1], color=0x00ff00)
+        await message.channel.send(embed=embedVar)
+
         print('Finished petrol_scrape_print')
 
     print(f'[{channel}] - {username}: "{user_message}" ')
-
-    # if user_message.startswith('!hello'):
-    #     embedVar = Embed(title="Title", description="Desc", color=0x00ff00)
-    #     embedVar.add_field(name="Field1", value="hi", inline=False)
-    #     embedVar.add_field(name="Field2", value="hi2", inline=False)
-    #     await message.channel.send(embed=embedVar)
 
 # Main entry point
 def main() -> None:
