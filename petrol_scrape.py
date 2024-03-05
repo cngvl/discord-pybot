@@ -44,10 +44,11 @@ def petrol_scrape(postCode: str) -> list:
 
     return [header, petrolLocations, petrolPrices]
 
-def petrol_scrape_print(user_message) -> str:
+
+def petrol_scrape_print(user_message) -> list:
     scrapeInfo = petrol_scrape(user_message)
 
-    returnText = f'{scrapeInfo[0]}\n'
+    returnText = ''
 
     petrolLocations = scrapeInfo[1]
 
@@ -55,7 +56,7 @@ def petrol_scrape_print(user_message) -> str:
         returnText += f'- {petrolLocations[val]}\n {scrapeInfo[2][val]}\n\n'
 
     # print(returnText)
-    return returnText
+    return [scrapeInfo[0] ,returnText]
 
 # user_message = petrol_scrape('$petty 3020')
 # petrol_scrape_print('$petty 3020')
