@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
+from datetime import date
 import requests
 import os
 
@@ -34,13 +35,11 @@ def petrol_scrape(postCode: str) -> list:
     petrolPrices = []
 
     for row in range(0, len(rows) - 1, 2):
-    #     returnText += f'- {rows[row].text}\n{rows[row + 1].text}\n\n'
         if rows[row].text not in petrolLocations:
             petrolLocations.append(rows[row].text)
 
         if rows[row + 1].text not in petrolPrices:
             petrolPrices.append(rows[row + 1].text)
-
 
     return [header, petrolLocations, petrolPrices]
 
