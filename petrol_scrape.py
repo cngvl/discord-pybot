@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from datetime import date
 import requests
 import os
+# import re
 
 load_dotenv()
 WEATHER_TOKEN = os.getenv('OPENWEATHER_TOKEN')
@@ -27,7 +28,9 @@ def petrol_scrape(postCode: str) -> list:
     url = f'https://petrolspy.com.au/map/latlng/{coords[0]}/{coords[1]}'
     page = requests.get(url)
     soup = BeautifulSoup(page.text, 'html.parser')
-    header = soup.find('h3' , id='main-station-list-header').text
+    listHeader = soup.find('h3' , id='main-station-list-header').text
+    # pattern = r"near\s(.*?)(?=:)"
+    # location = re.findall(pattern, listHeader)[0]
     box = soup.find('table', id='main-station-list-table')
     rows = box.find_all('td')
 
@@ -41,7 +44,7 @@ def petrol_scrape(postCode: str) -> list:
         if rows[row + 1].text not in petrolPrices:
             petrolPrices.append(rows[row + 1].text)
 
-    return [header, petrolLocations, petrolPrices]
+    return [listHeader, petrolLocations, petrolPrices]
 
 
 def petrol_scrape_print(user_message) -> list:
